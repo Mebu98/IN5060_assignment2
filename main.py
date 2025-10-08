@@ -19,7 +19,7 @@ def plot_graphs(signal, csv):
     match signal:
         case "4G": metrics = metrics_4G
         case "5G": metrics = metrics_5G
-
+    name= f"location: {i} , using {signal}"
     for metric in metrics:
         # operators = csv['MNC'].unique()
         # operator_csvs = [csv[csv['MNC'] == op] for op in operators]
@@ -33,12 +33,12 @@ def plot_graphs(signal, csv):
         #     fig.show()
 
 
-        vp = px.violin(csv, title=i, box=True, x=csv['MNC'], y=metric, color="MNC",
+        vp = px.violin(csv, title=name, box=True, x=csv['MNC'], y=metric, color="MNC",
                        color_discrete_map=operator_color_map)
         vp.show()
 
 
-for i in range(4,5):
+for i in range(1,16):
     try:
         csv_files_path = f"./4G_2023_passive/location_{i}_od_capacity_*.csv"
         all_csv_files = glob.glob(csv_files_path)
