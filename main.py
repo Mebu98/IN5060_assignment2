@@ -1,24 +1,26 @@
 import glob
+from unittest import case
+
 import pandas as pd
 import plotly.express as px
 import plotly.io as pio
-from matplotlib.pyplot import legend
+#from matplotlib.pyplot import legend
 import plotly.graph_objects as go
 
 from color_maps import operator_color_map
 
 pio.renderers.default = "browser"
 
-metrics = ["RSRQ", "RSRP", "SINR"]
+metrics_4G = ["RSRQ", "RSRP", "SINR"]
+metrics_5G = ["SSS-RSRQ", "SSS_RSRP", "SSS-SINR"]
 
-for i in range(4,5):
-    try:
-        csv_files_path = f"./4G_2023_passive/location_{i}_od_capacity_*.csv"
-        all_csv_files = glob.glob(csv_files_path)
+def plot_graphs(signal, csv):
+    metrics = None
+    match signal:
+        case "4G": metrics = metrics_4G
+        case "5G": metrics = metrics_5G
 
-        csv = pd.concat([pd.read_csv(file) for file in all_csv_files], ignore_index=True)
-        csv.sort_values(by=['MNC'], inplace=True)
-
+    for metric in metrics:
         # operators = csv['MNC'].unique()
         # operator_csvs = [csv[csv['MNC'] == op] for op in operators]
         #
@@ -30,10 +32,30 @@ for i in range(4,5):
         #     fig.update_layout(margin={"r": 50, "t": 50, "l": 50, "b": 50})
         #     fig.show()
 
-        for metric in metrics:
-            vp = px.violin(csv, title=i, box=True, x=csv['MNC'], y=metric, color="MNC",
-                           color_discrete_map=operator_color_map)
-            vp.show()
+
+        vp = px.violin(csv, title=i, box=True, x=csv['MNC'], y=metric, color="MNC",
+                       color_discrete_map=operator_color_map)
+        vp.show()
+
+
+for i in range(4,5):
+    try:
+        csv_files_path = f"./4G_2023_passive/location_{i}_od_capacity_*.csv"
+        all_csv_files = glob.glob(csv_files_path)
+
+        csv4G = pd.concat([pd.read_csv(file) for file in all_csv_files], ignore_index=True)
+        csv4G.sort_values(by=['MNC'], inplace=True)
+
+        csv_files_path = f"./5G_2023_passive/location_{i}_od_capacity_*.csv"
+        all_csv_files = glob.glob(csv_files_path)
+
+        csv5G = pd.concat([pd.read_csv(file) for file in all_csv_files], ignore_index=True)
+        csv5G.sort_values(by=['MNC'], inplace=True)
+
+        plot_graphs(signal="4G", csv=csv4G)
+        plot_graphs(signal="5G", csv=csv5G)
+
+
 
 
     except Exception as e:
