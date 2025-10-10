@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
 <<<<<<< Updated upstream
-    <list default="true" id="183ba238-75b7-40de-93e9-76769d942906" name="Changes" comment="Replaced MNC &quot;OP&quot;[1] etc with their respective operator name.">
+    <list default="true" id="183ba238-75b7-40de-93e9-76769d942906" name="Changes" comment="median of graph is listed next to graph">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
 =======
     <list default="true" id="183ba238-75b7-40de-93e9-76769d942906" name="Changes" comment="">
@@ -110,7 +110,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760092878534</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="median of graph is listed next to graph">
+      <option name="closed" value="true" />
+      <created>1760095997303</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1760095997303</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -126,6 +134,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Replaced MNC &quot;OP&quot;[1] etc with their respective operator name." />
-    <option name="LAST_COMMIT_MESSAGE" value="Replaced MNC &quot;OP&quot;[1] etc with their respective operator name." />
+    <MESSAGE value="median of graph is listed next to graph" />
+    <option name="LAST_COMMIT_MESSAGE" value="median of graph is listed next to graph" />
   </component>
 </project>

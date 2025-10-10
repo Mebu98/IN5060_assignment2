@@ -1,4 +1,5 @@
 import glob
+import json
 from unittest import case
 
 import pandas as pd
@@ -7,11 +8,17 @@ import plotly.io as pio
 #from matplotlib.pyplot import legend
 import plotly.graph_objects as go
 from matplotlib.pyplot import figure
+import scikit_posthocs as sp
+import scipy as scipy
+from statsmodels.compat import asstr
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 from color_maps import operator_color_map
 from color_maps import metric_range_map
 
 pio.renderers.default = "browser"
+
 
 operators = {
     '"Op"[1]': 'OP1 (Tim)',
@@ -19,9 +26,16 @@ operators = {
     '"Op"[3]': 'OP3 (Illiad)',
     '"Op"[4]': 'OP4 (Wind)',
 }
-#"RSRQ", "RSRP",
-metrics_4G = ["SINR"]
-metrics_5G = ["SSS-RSRQ", "SSS_RSRP", "SSS-SINR"]
+
+metrics_4G = [
+    "SINR",
+    "RSRQ",
+    "RSRP",
+]
+metrics_5G = [
+    "SSS-RSRQ",
+    "SSS_RSRP",
+    "SSS-SINR"]
 
 def plot_graphs(signal, csv):
     metrics = None
@@ -92,7 +106,33 @@ def plot_graphs(signal, csv):
 
 
 #one_OP_Compare_Location()
-for i in range(4,5):
+
+def statistical_difference(signal, csv):
+
+    metrics = metrics_4G
+
+    match signal:
+        case "4G": metrics = metrics_4G
+        case "5G": metrics = metrics_5G
+
+    for metric in metrics:
+
+        ops = []
+
+        for op in operators.values():
+            ops.append(csv[csv['MNC'] == op][metric].tolist())
+
+        kruskal = scipy.stats.kruskal(*ops)
+        print(f'location:{i} signal: {signal}, metric:{metric},{kruskal}')
+
+        dunns = sp.posthoc_dunn(csv, group_col='MNC', val_col=metric, p_adjust='holm')
+        print(dunns)
+        # sns.heatmap(dunns, annot=True)
+        fig = px.imshow(dunns, title=f'location:{i} signal: {signal}, metric:{metric}, {kruskal}', text_auto=True)
+        fig.show()
+
+
+for i in range(1,15):
     try:
         csv_files_path = f"./4G_2023_passive/location_{i}_od_capacity_*.csv"
         all_csv_files = glob.glob(csv_files_path)
@@ -109,11 +149,15 @@ for i in range(4,5):
         csv5G.sort_values(by=['MNC'], inplace=True)
         csv5G.replace({'MNC': operators}, inplace=True)
 
-        plot_graphs(signal="4G", csv=csv4G)
+        # plot_graphs(signal="4G", csv=csv4G)
         # plot_graphs(signal="5G", csv=csv5G)
 
+        # statistical_difference(signal="5G", csv=csv5G)
 
     except Exception as e:
         print(f"{i} failed")
         print(e)
         continue
+
+plt.show()
+
