@@ -11,6 +11,13 @@ from color_maps import operator_color_map
 
 pio.renderers.default = "browser"
 
+operators = {
+    '"Op"[1]': 'OP1 (Tim)',
+    '"Op"[2]': 'OP2 (Vodafone)',
+    '"Op"[3]': 'OP3 (Illiad)',
+    '"Op"[4]': 'OP4 (Wind)',
+}
+
 metrics_4G = ["RSRQ", "RSRP", "SINR"]
 metrics_5G = ["SSS-RSRQ", "SSS_RSRP", "SSS-SINR"]
 
@@ -33,24 +40,27 @@ def plot_graphs(signal, csv):
         #     fig.show()
 
 
-        vp = px.violin(csv, title=name, box=True, x=csv['MNC'], y=metric, color="MNC",
+        vp = px.violin(csv, title=name + f", metric: {metric}", box=True, x=csv['MNC'], y=metric, color="MNC",
                        color_discrete_map=operator_color_map)
         vp.show()
 
 
-for i in range(1,16):
+for i in range(4,5):
     try:
         csv_files_path = f"./4G_2023_passive/location_{i}_od_capacity_*.csv"
         all_csv_files = glob.glob(csv_files_path)
 
         csv4G = pd.concat([pd.read_csv(file) for file in all_csv_files], ignore_index=True)
         csv4G.sort_values(by=['MNC'], inplace=True)
+        csv4G.replace({'MNC': operators}, inplace=True)
+        print(csv4G['MNC'].unique())
 
         csv_files_path = f"./5G_2023_passive/location_{i}_od_capacity_*.csv"
         all_csv_files = glob.glob(csv_files_path)
 
         csv5G = pd.concat([pd.read_csv(file) for file in all_csv_files], ignore_index=True)
         csv5G.sort_values(by=['MNC'], inplace=True)
+        csv5G.replace({'MNC': operators}, inplace=True)
 
         plot_graphs(signal="4G", csv=csv4G)
         plot_graphs(signal="5G", csv=csv5G)
