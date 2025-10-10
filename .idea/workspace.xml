@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="183ba238-75b7-40de-93e9-76769d942906" name="Changes" comment="">
+    <list default="true" id="183ba238-75b7-40de-93e9-76769d942906" name="Changes" comment="Replaced MNC &quot;OP&quot;[1] etc with their respective operator name.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/color_maps.py" beforeDir="false" afterPath="$PROJECT_DIR$/color_maps.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -82,6 +81,15 @@
       <option name="presentableId" value="Default" />
       <updated>1759749709994</updated>
     </task>
+    <task id="LOCAL-00001" summary="Replaced MNC &quot;OP&quot;[1] etc with their respective operator name.">
+      <option name="closed" value="true" />
+      <created>1760092878534</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1760092878534</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -94,5 +102,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Replaced MNC &quot;OP&quot;[1] etc with their respective operator name." />
+    <option name="LAST_COMMIT_MESSAGE" value="Replaced MNC &quot;OP&quot;[1] etc with their respective operator name." />
   </component>
 </project>

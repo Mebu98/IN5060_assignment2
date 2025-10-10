@@ -6,6 +6,7 @@ import plotly.express as px
 import plotly.io as pio
 #from matplotlib.pyplot import legend
 import plotly.graph_objects as go
+from matplotlib.pyplot import figure
 
 from color_maps import operator_color_map
 
@@ -17,8 +18,8 @@ operators = {
     '"Op"[3]': 'OP3 (Illiad)',
     '"Op"[4]': 'OP4 (Wind)',
 }
-
-metrics_4G = ["RSRQ", "RSRP", "SINR"]
+#"RSRQ", "RSRP",
+metrics_4G = ["SINR"]
 metrics_5G = ["SSS-RSRQ", "SSS_RSRP", "SSS-SINR"]
 
 def plot_graphs(signal, csv):
@@ -42,8 +43,14 @@ def plot_graphs(signal, csv):
 
         vp = px.violin(csv, title=name + f", metric: {metric}", box=True, x=csv['MNC'], y=metric, color="MNC",
                        color_discrete_map=operator_color_map)
-        vp.show()
 
+        for x, op in enumerate(csv['MNC'].unique()):
+            print(op)
+            median = csv.groupby('MNC')[metric].median()
+            minimum = csv.groupby('MNC')[metric].min()
+            vp.add_annotation(x=x + .33, y=median[op], showarrow=False, text=f'median: {median[op]:.2f}',
+                              font=dict(size=14))
+        vp.show()
 
 for i in range(4,5):
     try:
@@ -63,9 +70,7 @@ for i in range(4,5):
         csv5G.replace({'MNC': operators}, inplace=True)
 
         plot_graphs(signal="4G", csv=csv4G)
-        plot_graphs(signal="5G", csv=csv5G)
-
-
+        # plot_graphs(signal="5G", csv=csv5G)
 
 
     except Exception as e:
