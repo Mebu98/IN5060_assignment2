@@ -9,6 +9,7 @@ import plotly.graph_objects as go
 from matplotlib.pyplot import figure
 
 from color_maps import operator_color_map
+from color_maps import metric_range_map
 
 pio.renderers.default = "browser"
 
@@ -42,7 +43,7 @@ def plot_graphs(signal, csv):
 
 
         vp = px.violin(csv, title=name + f", metric: {metric}", box=True, x=csv['MNC'], y=metric, color="MNC",
-                       color_discrete_map=operator_color_map)
+                       color_discrete_map=operator_color_map, range_y=metric_range_map[metric])
 
         for x, op in enumerate(csv['MNC'].unique()):
             print(op)
@@ -53,66 +54,66 @@ def plot_graphs(signal, csv):
         vp.show()
 
 
-def one_OP_Compare_Location():
-    loaction_numb=[]
-    all_data=[]
-    for i in range(1, 16):
-        try:
-            csv_files_path = f"./4G_2023_passive/location_{i}_od_*.csv"
-            all_csv_files = glob.glob(csv_files_path)
-            csv4G = pd.concat([pd.read_csv(file) for file in all_csv_files], ignore_index=True)
-            csv4G['Location'] = str(i)
-            filtered_csv4G = csv4G[csv4G['MNC'] == '"Op"[3]']
-
-            # csv_files_path = f"./5G_2023_passive/location_{i}_od_*.csv"
-            # all_csv_files = glob.glob(csv_files_path)
-            #
-            # csv5G = pd.concat([pd.read_csv(file) for file in all_csv_files], ignore_index=True)
-            # csv5G['Location'] = i
-            # filtered_csv5G = csv5G[csv5G['MNC'] == '"Op"[3]']
-            #
-            #
-            # combined = pd.concat([filtered_csv4G, filtered_csv5G], ignore_index=True)
-            all_data.append(filtered_csv4G)
-
-        except Exception as e:
-            print(f"{i} failed")
-            print(e)
-        continue
-    full_data = pd.concat(all_data, ignore_index=True)
-    for metric in metrics_4G:
-        if metric not in full_data.columns:
-            print(f"Metric {metric} not found in data. Skipping.")
-            continue
-        vp = px.violin(full_data, title='Illian', box=True, x='Location', y=metric, color="Location")
-        vp.show()
-
-
-
-
-one_OP_Compare_Location()
-# for i in range(4,5):
-#     try:
-#         csv_files_path = f"./4G_2023_passive/location_{i}_od_capacity_*.csv"
-#         all_csv_files = glob.glob(csv_files_path)
+# def one_OP_Compare_Location():
+#     loaction_numb=[]
+#     all_data=[]
+#     for i in range(1, 16):
+#         try:
+#             csv_files_path = f"./4G_2023_passive/location_{i}_od_*.csv"
+#             all_csv_files = glob.glob(csv_files_path)
+#             csv4G = pd.concat([pd.read_csv(file) for file in all_csv_files], ignore_index=True)
+#             csv4G['Location'] = str(i)
+#             filtered_csv4G = csv4G[csv4G['MNC'] == '"Op"[3]']
 #
-#         csv4G = pd.concat([pd.read_csv(file) for file in all_csv_files], ignore_index=True)
-#         csv4G.sort_values(by=['MNC'], inplace=True)
-#         csv4G.replace({'MNC': operators}, inplace=True)
-#         print(csv4G['MNC'].unique())
+#             # csv_files_path = f"./5G_2023_passive/location_{i}_od_*.csv"
+#             # all_csv_files = glob.glob(csv_files_path)
+#             #
+#             # csv5G = pd.concat([pd.read_csv(file) for file in all_csv_files], ignore_index=True)
+#             # csv5G['Location'] = i
+#             # filtered_csv5G = csv5G[csv5G['MNC'] == '"Op"[3]']
+#             #
+#             #
+#             # combined = pd.concat([filtered_csv4G, filtered_csv5G], ignore_index=True)
+#             all_data.append(filtered_csv4G)
 #
-#         csv_files_path = f"./5G_2023_passive/location_{i}_od_capacity_*.csv"
-#         all_csv_files = glob.glob(csv_files_path)
-#
-#         csv5G = pd.concat([pd.read_csv(file) for file in all_csv_files], ignore_index=True)
-#         csv5G.sort_values(by=['MNC'], inplace=True)
-#         csv5G.replace({'MNC': operators}, inplace=True)
-#
-#         plot_graphs(signal="4G", csv=csv4G)
-#         # plot_graphs(signal="5G", csv=csv5G)
-#
-#
-#     except Exception as e:
-#         print(f"{i} failed")
-#         print(e)
+#         except Exception as e:
+#             print(f"{i} failed")
+#             print(e)
 #         continue
+#     full_data = pd.concat(all_data, ignore_index=True)
+#     for metric in metrics_4G:
+#         if metric not in full_data.columns:
+#             print(f"Metric {metric} not found in data. Skipping.")
+#             continue
+#         vp = px.violin(full_data, title='Illiad', box=True, x='Location', y=metric, color="Location")
+#         vp.show()
+
+
+
+
+#one_OP_Compare_Location()
+for i in range(4,5):
+    try:
+        csv_files_path = f"./4G_2023_passive/location_{i}_od_capacity_*.csv"
+        all_csv_files = glob.glob(csv_files_path)
+
+        csv4G = pd.concat([pd.read_csv(file) for file in all_csv_files], ignore_index=True)
+        csv4G.sort_values(by=['MNC'], inplace=True)
+        csv4G.replace({'MNC': operators}, inplace=True)
+        print(csv4G['MNC'].unique())
+
+        csv_files_path = f"./5G_2023_passive/location_{i}_od_capacity_*.csv"
+        all_csv_files = glob.glob(csv_files_path)
+
+        csv5G = pd.concat([pd.read_csv(file) for file in all_csv_files], ignore_index=True)
+        csv5G.sort_values(by=['MNC'], inplace=True)
+        csv5G.replace({'MNC': operators}, inplace=True)
+
+        plot_graphs(signal="4G", csv=csv4G)
+        # plot_graphs(signal="5G", csv=csv5G)
+
+
+    except Exception as e:
+        print(f"{i} failed")
+        print(e)
+        continue
