@@ -84,7 +84,7 @@ def one_OP_Compare_Location():
         if metric not in full_data.columns:
             print(f"Metric {metric} not found in data. Skipping.")
             continue
-        vp = px.violin(full_data, title='"Op"[3]', box=True, x='Location', y=metric, color="Location")
+        vp = px.violin(full_data, title='Illian', box=True, x='Location', y=metric, color="Location")
         vp.show()
 
 
